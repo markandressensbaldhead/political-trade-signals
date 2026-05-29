@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply min-h-screen bg-surface text-slate-100 antialiased;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 185, 129, 0.12), transparent),
+    linear-gradient(to bottom, #0a0f14, #06090c);
+}
+
+@layer utilities {
+  .finance-grid {
+    background-image:
+      linear-gradient(rgba(30, 41, 54, 0.35) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30, 41, 54, 0.35) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+}

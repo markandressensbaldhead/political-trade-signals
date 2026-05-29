@@ -57,8 +57,15 @@ export async function GET() {
     endpoint: "/api/scrape",
     method: "POST",
     description:
-      "Ingests NewsAPI headlines and Truth Social posts into raw_statements.",
-    sources: ["newsapi", "truth_social"],
+      "Ingests Truth Social, X, major news RSS/API, and optional NewsAPI into raw_statements.",
+    sources: [
+      "truth_social",
+      "x_feed",
+      "news_rss",
+      "newsapi",
+      "gnews",
+    ],
     cron: "/api/cron/scrape",
+    publicPoll: "/api/cron/public-poll",
   });
 }

@@ -1,21 +1,21 @@
-name: Truth Social poll (free)
+name: Public sources poll (free)
 
 on:
   schedule:
-    # Every 15 minutes — free on GitHub Actions for public repos
+    # Every 15 minutes — Truth Social, X, major news RSS/API
     - cron: "*/15 * * * *"
   workflow_dispatch:
 
 concurrency:
-  group: truth-social-poll
+  group: public-sources-poll
   cancel-in-progress: false
 
 jobs:
   poll:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
-      - name: Poll Trump Truth Social RSS + analyze
+      - name: Poll public statements + analyze
         env:
           APP_URL: ${{ secrets.APP_URL }}
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
@@ -26,4 +26,4 @@ jobs:
           fi
           curl -fsS -X POST \
             -H "Authorization: Bearer ${CRON_SECRET}" \
-            "${APP_URL%/}/api/cron/truth-poll"
+            "${APP_URL%/}/api/cron/public-poll"

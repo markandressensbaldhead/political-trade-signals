@@ -5,6 +5,7 @@ import Link from "next/link";
 import { CongressPulse } from "@/components/congress/congress-pulse";
 import { HotTickers } from "@/components/dashboard/hot-tickers";
 import { DecisionRail } from "@/components/dashboard/decision-rail";
+import { SourcesOverview } from "@/components/dashboard/sources-overview";
 import { StatsBar } from "@/components/dashboard/stats-bar";
 import { SignalCard } from "@/components/signals/signal-card";
 import { SignalFeed } from "@/components/signals/signal-feed";
@@ -16,6 +17,7 @@ export function DashboardOverview() {
   return (
     <div className="space-y-8">
       <DecisionRail />
+      <SourcesOverview />
 
       {error && (
         <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">

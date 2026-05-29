@@ -11,8 +11,11 @@ export async function GET(request: Request) {
   try {
     const result = await runScrapePipeline({
       analyzeAfterScrape: true,
-      analyzeLimit: 25,
-      truthLimit: 20,
+      analyzeLimit: 30,
+      truthLimit: 25,
+      xLimit: 20,
+      includeNews: true,
+      includeX: true,
     });
 
     return NextResponse.json({

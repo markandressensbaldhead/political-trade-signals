@@ -8,10 +8,12 @@ export function DecisionRail() {
         Positive political mentions before PTR filings
       </h2>
       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300">
-        This feed is tuned for long-bias research: only bullish tone on
-        traditional equities. Crypto, miners, and digital-asset names are
-        filtered out. Mentions land here before Capitol Trades disclosures —
-        use Alpha scores to prioritize watchlist adds and entry research.
+        We ingest verified public statements from Truth Social, X, and major
+        news networks (Reuters, CNN, Fox, CNBC, WSJ, AP, Politico, Bloomberg,
+        and more) — only when {` `}
+        <span className="text-accent">Trump is actually speaking</span>, not
+        third-party commentary. Bullish equity mentions only; crypto excluded.
+        Mentions land here before Capitol Trades PTR filings.
       </p>
       <ul className="mt-4 grid gap-2 text-xs text-slate-400 sm:grid-cols-3">
         <li className="rounded-lg border border-surface-border/80 bg-surface/50 px-3 py-2">

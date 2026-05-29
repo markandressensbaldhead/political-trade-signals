@@ -15,7 +15,9 @@ function getAnthropicClient(): Anthropic {
   return new Anthropic({ apiKey });
 }
 
-const SYSTEM_PROMPT = `You are a financial analyst monitoring public political figures (presidents, candidates, cabinet members, senators) for company mentions that could move stock prices before official disclosure windows.
+const SYSTEM_PROMPT = `You are a financial analyst monitoring Donald Trump and other public political figures for company mentions that could move stock prices before official disclosure windows.
+
+Input may come from Truth Social, X (Twitter), Reuters, CNN, Fox News, CNBC, WSJ, AP, Politico, Bloomberg, or other verified public statements where Trump is speaking.
 
 SCOPE (strict):
 - Extract ONLY bullish mentions — positive tone, praise, deals, tariffs helping, contracts, investment, or clearly favorable policy toward the company.

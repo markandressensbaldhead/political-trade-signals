@@ -8,6 +8,15 @@ export interface RawStatement {
   created_at: string;
 }
 
+export type SignalSector =
+  | "AI"
+  | "Semiconductors"
+  | "Cloud"
+  | "Defense Tech"
+  | "Hardware"
+  | "Enterprise Software"
+  | "Consumer Electronics";
+
 export interface CompanySignal {
   id: string;
   raw_statement_id: string | null;
@@ -19,6 +28,8 @@ export interface CompanySignal {
   source: string;
   speaker: string | null;
   action_note: string | null;
+  exchange: string | null;
+  sector: SignalSector | null;
   created_at: string;
 }
 
@@ -29,9 +40,13 @@ export interface SignalWithStatement extends CompanySignal {
 export interface ClaudeSignalResult {
   company_name: string;
   ticker: string;
+  exchange?: string | null;
+  sector?: SignalSector | null;
   sentiment: "bullish" | "bearish" | "neutral";
   confidence: number;
   quote: string;
+  verbatim_quote?: string;
+  one_sentence_rationale?: string;
   speaker?: string | null;
   action_note?: string | null;
 }

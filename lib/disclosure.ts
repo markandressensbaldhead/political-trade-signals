@@ -3,6 +3,21 @@ import type { CompanySignal } from "@/lib/types";
 
 export const STOCK_ACT_LAG_DAYS = 45;
 
+export function daysSince(isoDate: string): number {
+  const time = new Date(isoDate).getTime();
+  if (!Number.isFinite(time)) return 0;
+  return Math.max(0, Math.round((Date.now() - time) / 86400000));
+}
+
+/** Days remaining in the 45-day STOCK Act disclosure window from a trade or mention date. */
+export function getDaysBeforeDisclosure(
+  anchorDate: string | null | undefined
+): number | null {
+  if (!anchorDate) return null;
+  const elapsed = daysSince(anchorDate);
+  return Math.max(0, STOCK_ACT_LAG_DAYS - elapsed);
+}
+
 export type LagSeverity = "low" | "medium" | "high";
 
 export function getDisclosureLagDays(

@@ -220,7 +220,7 @@ export function TickerView({ symbol }: { symbol: string }) {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
             Bullish mentions
           </h2>
-          <div className="grid gap-4 lg:grid-cols-2">
+          <div className="space-y-3">
             {summary.signals.map((signal) => (
               <SignalCard key={signal.id} signal={signal} />
             ))}

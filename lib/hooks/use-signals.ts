@@ -31,7 +31,7 @@ function buildQueryString(query: SignalQuery): string {
 
 export function useSignals(query: SignalQuery = {}, pollMs = 30_000) {
   const [signals, setSignals] = useState<CompanySignal[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
@@ -57,16 +57,15 @@ export function useSignals(query: SignalQuery = {}, pollMs = 30_000) {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load signals");
     } finally {
-      setLoading(false);
+      setLoaded(true);
     }
   }, [queryKey]);
 
   useEffect(() => {
-    setLoading(true);
     load();
     const interval = setInterval(load, pollMs);
     return () => clearInterval(interval);
   }, [load, pollMs]);
 
-  return { signals, loading, error, lastUpdated, refresh: load };
+  return { signals, loaded, error, lastUpdated, refresh: load };
 }

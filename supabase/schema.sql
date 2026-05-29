@@ -24,6 +24,8 @@ create table if not exists public.company_signals (
   source text not null,
   speaker text,
   action_note text,
+  exchange text,
+  sector text,
   created_at timestamptz not null default now()
 );
 

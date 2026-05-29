@@ -9,7 +9,7 @@ import {
   isSupabaseConfigured,
   markStatementProcessed,
 } from "@/lib/supabase";
-import { isCryptoRelated } from "@/lib/product-filters";
+import { matchesProductScope } from "@/lib/product-filters";
 
 async function sendTwilioAlert(message: string): Promise<boolean> {
   const accountSid = process.env.TWILIO_ACCOUNT_SID?.trim();
@@ -64,10 +64,7 @@ export async function analyzeRawStatement(
   const tickers: string[] = [];
 
   if (signals.length > 0) {
-    const eligible = signals.filter(
-      (signal) =>
-        signal.sentiment === "bullish" && !isCryptoRelated(signal)
-    );
+    const eligible = signals.filter((signal) => matchesProductScope(signal));
 
     if (eligible.length === 0) {
       await markStatementProcessed(statement.id);
@@ -90,6 +87,8 @@ export async function analyzeRawStatement(
         source: statement.source,
         speaker: signal.speaker ?? null,
         action_note: signal.action_note ?? null,
+        exchange: signal.exchange ?? null,
+        sector: signal.sector ?? null,
       }))
     );
 
@@ -98,9 +97,10 @@ export async function analyzeRawStatement(
 
     const top = rows.sort((a, b) => b.confidence - a.confidence)[0];
     alerted = top
-      ? await sendTwilioAlert(
+      ? top.sentiment === "bullish" &&
+        (await sendTwilioAlert(
           `Bullish: ${top.ticker} (${Math.round(top.confidence * 100)}%) — "${top.quote.slice(0, 120)}"`
-        )
+        ))
       : false;
   }
 

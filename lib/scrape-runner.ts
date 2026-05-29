@@ -57,7 +57,7 @@ export async function runScrapePipeline(options?: {
   }
 
   if (options?.analyzeAfterScrape) {
-    result.analyze = await runAnalyzePipeline(options.analyzeLimit ?? 25);
+    result.analyze = await runAnalyzePipeline({ hours: 48 });
   }
 
   return result;

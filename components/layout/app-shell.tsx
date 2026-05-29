@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { FilteredThresholdCounter } from "@/components/layout/filtered-threshold-counter";
 import { LiveClock } from "@/components/layout/live-clock";
+import { ProofOfConceptBanner } from "@/components/dashboard/proof-of-concept-banner";
 import { TickerSearch } from "@/components/layout/ticker-search";
 
 const NAV = [
@@ -14,18 +16,25 @@ const NAV = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const showPocBanner =
+    pathname === "/dashboard" ||
+    pathname === "/signals" ||
+    pathname === "/";
 
   return (
     <div className="min-h-screen bg-surface">
       <header className="sticky top-0 z-40 border-b border-white/[0.06] bg-[#06090c]/95 backdrop-blur-xl">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <Link
             href="/dashboard"
             className="text-sm font-semibold tracking-tight text-white transition hover:text-slate-200 sm:text-base"
           >
             Political Trade Signals
           </Link>
-          <LiveClock />
+          <div className="flex items-center gap-4">
+            <FilteredThresholdCounter />
+            <LiveClock />
+          </div>
         </div>
         <div className="border-t border-white/[0.04]">
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-2 sm:px-6 lg:px-8">
@@ -54,6 +63,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </header>
+
+      {showPocBanner && <ProofOfConceptBanner />}
 
       <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {children}

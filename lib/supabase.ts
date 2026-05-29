@@ -6,7 +6,7 @@ import type {
   SignalWithStatement,
   TickerSummary,
 } from "@/lib/types";
-import { applyProductFilters } from "@/lib/product-filters";
+import { applyScopeFilters } from "@/lib/product-filters";
 
 function getSupabaseUrl(): string {
   const url = process.env.SUPABASE_URL?.trim();
@@ -42,15 +42,24 @@ export function createSupabaseBrowserClient(): SupabaseClient {
   return createClient(getSupabaseUrl(), getSupabaseAnonKey());
 }
 
+function noStoreFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  return fetch(input, {
+    ...init,
+    cache: "no-store",
+  });
+}
+
 export function createSupabaseServerClient(): SupabaseClient {
   return createClient(getSupabaseUrl(), getSupabaseAnonKey(), {
     auth: { persistSession: false, autoRefreshToken: false },
+    global: { fetch: noStoreFetch },
   });
 }
 
 export function createSupabaseAdminClient(): SupabaseClient {
   return createClient(getSupabaseUrl(), getSupabaseServiceRoleKey(), {
     auth: { persistSession: false, autoRefreshToken: false },
+    global: { fetch: noStoreFetch },
   });
 }
 
@@ -147,12 +156,16 @@ export async function fetchTickerSummary(
   limit = 100,
   client?: SupabaseClient
 ): Promise<TickerSummary> {
-  const signals = applyProductFilters(
-    await fetchRecentSignals(
-      { ticker: ticker.toUpperCase(), limit, sentiment: "bullish" },
-      client
-    )
-  );
+  const normalized = ticker.toUpperCase();
+  const signals = applyScopeFilters(
+    await fetchRecentSignals({ limit: 500 }, client)
+  )
+    .filter((s) => s.ticker.toUpperCase() === normalized)
+    .slice(0, limit);
+
+  const bullish = signals.filter((s) => s.sentiment === "bullish").length;
+  const bearish = signals.filter((s) => s.sentiment === "bearish").length;
+  const neutral = signals.filter((s) => s.sentiment === "neutral").length;
 
   const avgConfidence =
     signals.length > 0
@@ -160,12 +173,12 @@ export async function fetchTickerSummary(
       : 0;
 
   return {
-    ticker: ticker.toUpperCase(),
-    companyName: signals[0]?.company_name ?? ticker.toUpperCase(),
+    ticker: normalized,
+    companyName: signals[0]?.company_name ?? normalized,
     signalCount: signals.length,
-    bullish: signals.length,
-    bearish: 0,
-    neutral: 0,
+    bullish,
+    bearish,
+    neutral,
     avgConfidence,
     latestSignal: signals[0] ?? null,
     signals,
@@ -189,24 +202,42 @@ export async function fetchDistinctSources(
   return Array.from(new Set((data ?? []).map((row) => row.source as string)));
 }
 
-export async function fetchUnprocessedStatements(
-  limit = 20,
+export async function fetchRecentRawStatements(
+  hours = 48,
   client?: SupabaseClient
 ): Promise<RawStatement[]> {
-  const supabase = client ?? createSupabaseAdminClient();
+  const supabase = getReadClient(client);
+  const since = new Date(Date.now() - hours * 60 * 60 * 1000).toISOString();
 
   const { data, error } = await supabase
     .from("raw_statements")
     .select("*")
-    .eq("processed", false)
-    .order("published_at", { ascending: false })
-    .limit(limit);
+    .gte("published_at", since)
+    .order("published_at", { ascending: false });
 
   if (error) {
     throw new Error(error.message);
   }
 
   return (data ?? []) as RawStatement[];
+}
+
+export async function statementHasSignals(
+  statementId: string,
+  client?: SupabaseClient
+): Promise<boolean> {
+  const supabase = getReadClient(client);
+
+  const { count, error } = await supabase
+    .from("company_signals")
+    .select("id", { count: "exact", head: true })
+    .eq("raw_statement_id", statementId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (count ?? 0) > 0;
 }
 
 export async function insertRawStatement(
@@ -276,6 +307,26 @@ export async function insertCompanySignals(
     .select("*");
 
   if (error) {
+    const missingOptionalColumn =
+      (error.message.includes("exchange") &&
+        signals.some((row) => row.exchange != null)) ||
+      (error.message.includes("sector") &&
+        signals.some((row) => row.sector != null));
+
+    if (missingOptionalColumn) {
+      const stripped = signals.map(
+        ({ exchange: _e, sector: _s, ...rest }) => rest
+      );
+      const retry = await supabase
+        .from("company_signals")
+        .insert(stripped)
+        .select("*");
+      if (retry.error) {
+        throw new Error(retry.error.message);
+      }
+      return (retry.data ?? []) as CompanySignal[];
+    }
+
     throw new Error(error.message);
   }
 

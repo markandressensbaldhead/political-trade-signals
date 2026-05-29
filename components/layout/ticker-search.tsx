@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
-import { isCryptoRelated } from "@/lib/product-filters";
+import { AI_TECH_TICKERS, matchesProductScope } from "@/lib/product-filters";
 
 export function TickerSearch() {
   const router = useRouter();
@@ -15,8 +15,11 @@ export function TickerSearch() {
     const symbol = value.trim().toUpperCase();
     if (!symbol) return;
 
-    if (isCryptoRelated({ ticker: symbol, company_name: "", quote: "" })) {
-      setError("Crypto tickers are excluded from this feed.");
+    if (
+      !AI_TECH_TICKERS.has(symbol) &&
+      !matchesProductScope({ ticker: symbol, company_name: symbol, quote: "" })
+    ) {
+      setError("Only AI & tech tickers are tracked in this feed.");
       return;
     }
 
@@ -34,7 +37,7 @@ export function TickerSearch() {
             setError(null);
           }}
           type="text"
-          placeholder="Search equity ticker…"
+          placeholder="Search AI/tech ticker…"
           className="w-full rounded-lg border border-surface-border bg-surface-raised px-3 py-2 font-mono text-sm uppercase text-slate-100 placeholder:normal-case placeholder:text-slate-500 focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30"
         />
       </form>

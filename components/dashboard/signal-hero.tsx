@@ -13,7 +13,7 @@ export function SignalHero({ compact = false }: { compact?: boolean }) {
           compact ? "text-sm" : "text-base sm:text-lg"
         }`}
       >
-        Real-time flags when Trump publicly endorses a company — before the
+        Real-time flags when Trump mentions AI & tech companies — before the
         45-day disclosure window closes.
       </p>
     </div>

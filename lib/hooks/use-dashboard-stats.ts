@@ -2,13 +2,17 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import type { HotTicker, SignalStats } from "@/lib/signal-analytics";
+import type { HotTicker, SignalStats, SignalStrengthEntry } from "@/lib/signal-analytics";
+import type { WatchlistRow } from "@/components/dashboard/ai-tech-watchlist";
 import type { CompanySignal } from "@/lib/types";
 
 interface StatsPayload {
   stats: SignalStats;
   hotTickers: HotTicker[];
+  strengthIndex: SignalStrengthEntry[];
   topActionable: CompanySignal[];
+  watchlist: WatchlistRow[];
+  filteredBelowThresholdToday: number;
 }
 
 export function useDashboardStats(pollMs = 60_000) {

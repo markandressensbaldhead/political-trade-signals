@@ -22,13 +22,24 @@ export interface HotTicker {
   dominantSentiment: CompanySignal["sentiment"];
 }
 
+export type StrengthTrend = "up" | "flat" | "down";
+
+export interface SignalStrengthEntry {
+  ticker: string;
+  companyName: string;
+  count: number;
+  trend: StrengthTrend;
+}
+
+const MS_24H = 24 * 60 * 60 * 1000;
+const MS_7D = 7 * MS_24H;
+const MS_30D = 30 * MS_24H;
+
 export interface RetailDecision {
   headline: string;
   detail: string;
   tone: "action" | "caution" | "neutral" | "info";
 }
-
-const MS_24H = 24 * 60 * 60 * 1000;
 
 export function computeAlphaScore(signal: CompanySignal): number {
   let score = signal.confidence * 65;
@@ -131,6 +142,64 @@ export function computeHotTickers(
       return new Date(b.latestAt).getTime() - new Date(a.latestAt).getTime();
     })
     .slice(0, limit);
+}
+
+export function computeSignalStrengthIndex(
+  signals: CompanySignal[],
+  limit = 5
+): SignalStrengthEntry[] {
+  const now = Date.now();
+  const cutoff30 = now - MS_30D;
+  const weekAgo = now - MS_7D;
+  const twoWeeksAgo = now - 2 * MS_7D;
+
+  const last30 = signals.filter(
+    (s) => new Date(s.created_at).getTime() >= cutoff30
+  );
+
+  const byTicker = new Map<
+    string,
+    { companyName: string; bucket: CompanySignal[] }
+  >();
+
+  for (const signal of last30) {
+    const ticker = signal.ticker.toUpperCase();
+    if (ticker === "UNKNOWN") continue;
+
+    const entry = byTicker.get(ticker) ?? {
+      companyName: signal.company_name,
+      bucket: [],
+    };
+    entry.bucket.push(signal);
+    byTicker.set(ticker, entry);
+  }
+
+  const entries: SignalStrengthEntry[] = [];
+
+  for (const [ticker, { companyName, bucket }] of Array.from(
+    byTicker.entries()
+  )) {
+    const currentWeek = bucket.filter(
+      (s) => new Date(s.created_at).getTime() >= weekAgo
+    ).length;
+    const priorWeek = bucket.filter((s) => {
+      const t = new Date(s.created_at).getTime();
+      return t >= twoWeeksAgo && t < weekAgo;
+    }).length;
+
+    let trend: StrengthTrend = "flat";
+    if (currentWeek > priorWeek) trend = "up";
+    else if (currentWeek < priorWeek) trend = "down";
+
+    entries.push({
+      ticker,
+      companyName,
+      count: bucket.length,
+      trend,
+    });
+  }
+
+  return entries.sort((a, b) => b.count - a.count).slice(0, limit);
 }
 
 export function rankActionableSignals(

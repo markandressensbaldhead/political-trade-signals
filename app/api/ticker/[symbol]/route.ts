@@ -2,13 +2,16 @@ import { NextResponse } from "next/server";
 
 import { fetchCapitolTradesByTicker } from "@/lib/capitol-trades";
 import { compareMentionToFilings } from "@/lib/disclosure";
-import { applyProductFilters, isCryptoRelated } from "@/lib/product-filters";
+import { matchesProductScope } from "@/lib/product-filters";
 import {
   getChartHistory,
   getMarketQuote,
   getPriceAtDate,
 } from "@/lib/market";
 import { fetchTickerSummary, isSupabaseConfigured } from "@/lib/supabase";
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 export async function GET(
   _request: Request,
@@ -20,9 +23,9 @@ export async function GET(
 
   const symbol = params.symbol.toUpperCase();
 
-  if (isCryptoRelated({ ticker: symbol, company_name: "", quote: "" })) {
+  if (!matchesProductScope({ ticker: symbol, company_name: "", quote: "" })) {
     return NextResponse.json(
-      { error: "Crypto tickers are excluded from this feed" },
+      { error: "Ticker is outside AI & tech scope" },
       { status: 404 }
     );
   }

@@ -45,8 +45,8 @@ export function SignalCard({
   const isLive = isWithinLastHour(signal.created_at);
 
   return (
-    <article className="rounded-xl border border-surface-border bg-surface-raised transition hover:border-accent/20 hover:shadow-lg hover:shadow-black/20">
-      <div className="flex items-start justify-between gap-4 border-b border-surface-border/70 px-4 py-3">
+    <article className="rounded-xl border border-white/[0.06] bg-surface-raised/80 transition hover:border-white/[0.12]">
+      <div className="flex items-start justify-between gap-4 border-b border-white/[0.04] px-4 py-3">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <LiveDot active={isLive} />

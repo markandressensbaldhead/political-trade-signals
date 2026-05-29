@@ -5,13 +5,15 @@ export default function WatchlistPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-semibold text-white">Watchlist</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          Track tickers you care about — signals matching your list surface here first.
+        <h1 className="font-mono text-xl font-semibold tracking-[0.15em] text-white">
+          WATCHLIST
+        </h1>
+        <p className="mt-3 text-sm text-slate-500">
+          Track tickers you care about — matching signals surface here first.
         </p>
       </div>
       <WatchlistManager />
-      <SignalFeed watchlistOnly title="Watchlist signals" showFilters={false} />
+      <SignalFeed watchlistOnly title="Your watchlist" showFilters={false} />
     </div>
   );
 }

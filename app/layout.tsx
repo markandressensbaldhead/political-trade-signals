@@ -18,7 +18,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Political Trade Signals",
   description:
-    "Bullish equity alerts when public figures mention companies before official disclosure windows. Crypto excluded.",
+    "Real-time flags when Trump publicly endorses a company — before the 45-day disclosure window closes.",
 };
 
 export default function RootLayout({

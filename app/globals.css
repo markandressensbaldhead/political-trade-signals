@@ -7,20 +7,13 @@
 }
 
 body {
-  @apply min-h-screen bg-surface text-slate-100 antialiased;
+  @apply min-h-screen bg-[#06090c] text-slate-100 antialiased;
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 185, 129, 0.12), transparent),
-    linear-gradient(to bottom, #0a0f14, #06090c);
+    radial-gradient(ellipse 100% 80% at 50% -30%, rgba(255, 255, 255, 0.03), transparent),
+    linear-gradient(to bottom, #080c10, #06090c);
 }
 
 @layer utilities {
-  .finance-grid {
-    background-image:
-      linear-gradient(rgba(30, 41, 54, 0.35) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(30, 41, 54, 0.35) 1px, transparent 1px);
-    background-size: 48px 48px;
-  }
-
   .scrollbar-thin {
     scrollbar-width: thin;
     scrollbar-color: #1e2936 transparent;

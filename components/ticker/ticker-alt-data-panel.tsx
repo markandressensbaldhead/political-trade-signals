@@ -24,12 +24,7 @@ export function TickerAltDataPanel({
   configured: boolean;
 }) {
   if (!configured) {
-    return (
-      <div className="rounded-xl border border-dashed border-surface-border p-5 text-sm text-slate-500">
-        Add <code className="text-accent">QUIVERQUANT_API_KEY</code> for insider,
-        lobbying, and government contract context on ticker pages.
-      </div>
-    );
+    return null;
   }
 
   const empty =

@@ -50,8 +50,8 @@ export function SignalFeed({
 
   if (loading && signals.length === 0) {
     return (
-      <div className="rounded-xl border border-surface-border bg-surface-raised p-12 text-center text-slate-400">
-        Loading signals…
+      <div className="rounded-xl border border-white/[0.06] bg-surface-raised/50 py-16 text-center text-sm text-slate-500">
+        Loading…
       </div>
     );
   }
@@ -60,26 +60,29 @@ export function SignalFeed({
     <div className="space-y-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
+          <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
             {title}
           </h2>
-          <p className="mt-0.5 text-xs text-slate-500">
-            {ranked.length} signals
+          <p className="mt-1 text-xs text-slate-600">
+            {ranked.length} {ranked.length === 1 ? "signal" : "signals"}
             {lastUpdated
-              ? ` · Updated ${lastUpdated.toLocaleTimeString()}`
+              ? ` · ${lastUpdated.toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}`
               : ""}
             {watchlistOnly && tickers.length === 0
-              ? " · add tickers on Watchlist page"
+              ? " · add tickers to your watchlist"
               : ""}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex rounded-lg border border-surface-border p-0.5">
+          <div className="flex rounded-lg border border-white/[0.06] p-0.5">
             <button
               type="button"
               onClick={() => setView("cards")}
               className={`rounded-md px-2.5 py-1 text-xs ${
-                view === "cards" ? "bg-accent/10 text-accent" : "text-slate-400"
+                view === "cards" ? "bg-white/[0.06] text-white" : "text-slate-500"
               }`}
             >
               Cards
@@ -88,10 +91,10 @@ export function SignalFeed({
               type="button"
               onClick={() => setView("dense")}
               className={`rounded-md px-2.5 py-1 text-xs ${
-                view === "dense" ? "bg-accent/10 text-accent" : "text-slate-400"
+                view === "dense" ? "bg-white/[0.06] text-white" : "text-slate-500"
               }`}
             >
-              Dense
+              List
             </button>
           </div>
           <button
@@ -103,14 +106,14 @@ export function SignalFeed({
               )
             }
             disabled={ranked.length === 0}
-            className="rounded-lg border border-surface-border bg-surface px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-accent/40 hover:text-accent disabled:opacity-40"
+            className="rounded-lg border border-white/[0.06] px-3 py-1.5 text-xs font-medium text-slate-400 transition hover:border-white/[0.12] hover:text-white disabled:opacity-40"
           >
-            Export CSV
+            Export
           </button>
           <button
             type="button"
             onClick={refresh}
-            className="rounded-lg border border-surface-border bg-surface px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-accent/40 hover:text-accent"
+            className="rounded-lg border border-white/[0.06] px-3 py-1.5 text-xs font-medium text-slate-400 transition hover:border-white/[0.12] hover:text-white"
           >
             Refresh
           </button>
@@ -118,8 +121,8 @@ export function SignalFeed({
       </div>
 
       {error && (
-        <div className="rounded-lg border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-          {error}
+        <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-sm text-amber-200/90">
+          Unable to load signals. Try refreshing.
         </div>
       )}
 
@@ -128,8 +131,8 @@ export function SignalFeed({
       )}
 
       {ranked.length === 0 ? (
-        <div className="rounded-xl border border-surface-border bg-surface-raised px-5 py-16 text-center">
-          <p className="text-sm text-slate-400">No signals match your filters.</p>
+        <div className="rounded-xl border border-white/[0.06] bg-surface-raised/50 px-5 py-16 text-center">
+          <p className="text-sm text-slate-500">No signals match your filters.</p>
         </div>
       ) : (
         <div

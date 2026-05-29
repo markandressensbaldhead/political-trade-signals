@@ -36,12 +36,12 @@ export function WatchlistManager() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl border border-surface-border bg-surface-raised p-5">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
-          Your watchlist
+      <div className="rounded-xl border border-white/[0.06] bg-surface-raised/80 p-5">
+        <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
+          Add tickers
         </h2>
         <p className="mt-1 text-sm text-slate-500">
-          Stored locally in your browser. Matching signals are highlighted across the app.
+          Symbols you want flagged when Trump mentions them.
         </p>
 
         <form onSubmit={handleAdd} className="mt-4 flex gap-2">
@@ -71,7 +71,7 @@ export function WatchlistManager() {
       </div>
 
       {tickers.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-surface-border p-12 text-center text-sm text-slate-500">
+        <div className="rounded-xl border border-dashed border-white/[0.06] p-12 text-center text-sm text-slate-500">
           No tickers yet. Add symbols you trade or want to monitor for political mentions.
         </div>
       ) : (
@@ -83,7 +83,7 @@ export function WatchlistManager() {
             return (
               <div
                 key={ticker}
-                className="rounded-xl border border-surface-border bg-surface-raised p-4"
+                className="rounded-xl border border-white/[0.06] bg-surface-raised/80 p-4"
               >
                 <div className="flex items-start justify-between">
                   <TickerLink ticker={ticker} />

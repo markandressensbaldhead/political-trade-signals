@@ -44,7 +44,7 @@ export function SignalFeed({
   );
 
   const sources = useMemo(
-    () => [...new Set(signals.map((s) => s.source))].sort(),
+    () => Array.from(new Set(signals.map((s) => s.source))).sort(),
     [signals]
   );
 

@@ -21,7 +21,7 @@ export function readWatchlist(): string[] {
 
 export function writeWatchlist(tickers: string[]): void {
   if (typeof window === "undefined") return;
-  const normalized = [...new Set(tickers.map((t) => t.toUpperCase()))];
+  const normalized = Array.from(new Set(tickers.map((t) => t.toUpperCase())));
   localStorage.setItem(WATCHLIST_STORAGE_KEY, JSON.stringify(normalized));
 }
 

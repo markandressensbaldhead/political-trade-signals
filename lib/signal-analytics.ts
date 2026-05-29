@@ -93,7 +93,7 @@ export function computeHotTickers(
 
   const hot: HotTicker[] = [];
 
-  for (const [ticker, bucket] of byTicker) {
+  for (const [ticker, bucket] of Array.from(byTicker.entries())) {
     const sorted = [...bucket].sort(
       (a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()

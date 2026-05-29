@@ -186,7 +186,7 @@ export async function fetchDistinctSources(
     throw new Error(error.message);
   }
 
-  return [...new Set((data ?? []).map((row) => row.source as string))];
+  return Array.from(new Set((data ?? []).map((row) => row.source as string)));
 }
 
 export async function fetchUnprocessedStatements(

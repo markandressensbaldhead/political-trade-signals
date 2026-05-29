@@ -117,7 +117,7 @@ export function WatchlistManager() {
                   href={`/ticker/${ticker}`}
                   className="mt-3 inline-block text-xs text-accent hover:underline"
                 >
-                  View political signals →
+                  View signals →
                 </Link>
               </div>
             );

@@ -52,7 +52,11 @@ export async function fetchRecentSignals(
   limit = 50,
   client?: SupabaseClient
 ): Promise<CompanySignal[]> {
-  const supabase = client ?? createSupabaseServerClient();
+  const supabase =
+    client ??
+    (process.env.SUPABASE_SERVICE_ROLE_KEY?.trim()
+      ? createSupabaseAdminClient()
+      : createSupabaseServerClient());
 
   const { data, error } = await supabase
     .from("company_signals")

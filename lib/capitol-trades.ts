@@ -202,7 +202,7 @@ export async function fetchCapitolTradesRecent(
     if (batch.length < pageSize) break;
   }
 
-  return [...merged.values()].sort(
+  return Array.from(merged.values()).sort(
     (a, b) => new Date(b.tradeDate).getTime() - new Date(a.tradeDate).getTime()
   );
 }

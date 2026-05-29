@@ -144,7 +144,12 @@ async function fetchScrapeCreatorsXTweets(
     }>;
   };
 
-  const rows = payload.tweets ?? payload.data ?? [];
+  const rows: Array<{
+    id?: string;
+    text?: string;
+    full_text?: string;
+    created_at?: string;
+  }> = payload.tweets ?? payload.data ?? [];
 
   return rows
     .map((tweet) => {

@@ -85,9 +85,9 @@ async function fetchChartQuote(ticker: string): Promise<MarketQuote> {
 export async function getMarketQuotes(
   tickers: string[]
 ): Promise<Record<string, MarketQuote>> {
-  const uniqueTickers = [
-    ...new Set(tickers.map(normalizeTicker).filter(Boolean)),
-  ];
+  const uniqueTickers = Array.from(
+    new Set(tickers.map(normalizeTicker).filter(Boolean))
+  );
   const quotes: Record<string, MarketQuote> = {};
 
   const results = await Promise.all(

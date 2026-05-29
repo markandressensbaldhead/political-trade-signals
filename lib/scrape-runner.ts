@@ -1,6 +1,5 @@
 import { runAnalyzePipeline } from "@/lib/analyze-runner";
 import { scrapeAllNewsNetworks } from "@/lib/scrape-news-networks";
-import { scrapeNewsArticles } from "@/lib/scrape-news";
 import { scrapeXFeed } from "@/lib/scrape-x-feed";
 import { scrapeTruthSocialPosts } from "@/lib/truth-social";
 import type { SourceScrapeResult } from "@/lib/ingest-utils";
@@ -9,7 +8,7 @@ export interface ScrapePipelineResult {
   truthSocial: Awaited<ReturnType<typeof scrapeTruthSocialPosts>>;
   xFeed?: SourceScrapeResult;
   newsNetworks?: SourceScrapeResult[];
-  news?: Awaited<ReturnType<typeof scrapeNewsArticles>>;
+  news?: SourceScrapeResult;
   analyze?: Awaited<ReturnType<typeof runAnalyzePipeline>>;
 }
 

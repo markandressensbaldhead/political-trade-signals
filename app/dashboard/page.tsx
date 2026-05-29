@@ -103,7 +103,7 @@ export default function DashboardPage() {
             <p className="mt-2 font-mono text-xs text-accent">
               GET /api/cron/scrape
             </p>
-            <p className="mt-1 text-xs text-slate-500">Every 10 minutes</p>
+            <p className="mt-1 text-xs text-slate-500">Daily at 12:00 UTC (Hobby plan)</p>
           </div>
           <div className="rounded-xl border border-surface-border bg-surface-raised p-4">
             <p className="text-xs uppercase tracking-wider text-slate-500">

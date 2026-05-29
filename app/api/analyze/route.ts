@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 
+import { isPipelineAuthorized } from "@/lib/api-auth";
 import { runAnalyzePipeline } from "@/lib/analyze-runner";
 import { isAnthropicConfigured } from "@/lib/claude";
 import { isSupabaseConfigured } from "@/lib/supabase";
 
 export async function POST(request: Request) {
+  if (!isPipelineAuthorized(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   let limit = 10;
 
   try {

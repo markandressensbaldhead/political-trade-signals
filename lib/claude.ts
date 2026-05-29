@@ -22,6 +22,8 @@ Extract ONLY explicit or strongly implied company references from the statement.
 - sentiment: bullish | bearish | neutral (based on tone toward the company)
 - confidence: 0.0 to 1.0 (how clear the mention and sentiment are)
 - quote: the exact substring from the statement that triggered the signal
+- speaker: who said it (name/title if identifiable, else null)
+- action_note: one plain-English sentence for a retail trader — why this mention might matter for the stock (policy, tariff, contract, praise/criticism). No buy/sell advice.
 
 Return JSON only: { "signals": [ ... ] }
 If no investable company mentions exist, return { "signals": [] }`;
@@ -61,9 +63,12 @@ Extract company signals as JSON.`,
     return [];
   }
 
-  const parsed = JSON.parse(jsonMatch[0]) as {
-    signals?: ClaudeSignalResult[];
-  };
+  let parsed: { signals?: ClaudeSignalResult[] };
+  try {
+    parsed = JSON.parse(jsonMatch[0]) as { signals?: ClaudeSignalResult[] };
+  } catch {
+    return [];
+  }
 
   return (parsed.signals ?? []).filter(
     (signal) =>

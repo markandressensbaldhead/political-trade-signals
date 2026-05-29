@@ -17,7 +17,13 @@ export interface CompanySignal {
   confidence: number;
   quote: string;
   source: string;
+  speaker: string | null;
+  action_note: string | null;
   created_at: string;
+}
+
+export interface SignalWithStatement extends CompanySignal {
+  statement?: RawStatement | null;
 }
 
 export interface ClaudeSignalResult {
@@ -26,4 +32,18 @@ export interface ClaudeSignalResult {
   sentiment: "bullish" | "bearish" | "neutral";
   confidence: number;
   quote: string;
+  speaker?: string | null;
+  action_note?: string | null;
+}
+
+export interface TickerSummary {
+  ticker: string;
+  companyName: string;
+  signalCount: number;
+  bullish: number;
+  bearish: number;
+  neutral: number;
+  avgConfidence: number;
+  latestSignal: CompanySignal | null;
+  signals: CompanySignal[];
 }

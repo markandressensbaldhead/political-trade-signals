@@ -72,6 +72,8 @@ export async function analyzeRawStatement(
         confidence: signal.confidence,
         quote: signal.quote,
         source: statement.source,
+        speaker: signal.speaker ?? null,
+        action_note: signal.action_note ?? null,
       }))
     );
 

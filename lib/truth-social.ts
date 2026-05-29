@@ -309,8 +309,7 @@ export function isTruthSocialConfigured(): boolean {
   return Boolean(
     process.env.TRUTH_SOCIAL_RSS_URL?.trim() ||
       process.env.TRUTH_SOCIAL_ACCESS_TOKEN?.trim() ||
-      process.env.TRUTH_SOCIAL_USERNAMES?.trim() ||
-      true
+      process.env.SCRAPECREATORS_API_KEY?.trim()
   );
 }
 

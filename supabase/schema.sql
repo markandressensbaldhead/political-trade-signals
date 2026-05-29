@@ -22,6 +22,8 @@ create table if not exists public.company_signals (
   confidence numeric(4, 3) not null check (confidence >= 0 and confidence <= 1),
   quote text not null,
   source text not null,
+  speaker text,
+  action_note text,
   created_at timestamptz not null default now()
 );
 

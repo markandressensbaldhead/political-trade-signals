@@ -72,7 +72,8 @@ export async function GET() {
   return NextResponse.json({
     endpoint: "/api/webhooks/truth-social",
     method: "POST",
-    provider: "Follow Trump's Truth",
+    provider: "Follow Trump's Truth (optional paid)",
+    note: "Use free RSS polling via /api/cron/truth-poll instead — see SETUP.md",
     headers: ["X-Ftt-Signature", "X-Ftt-Event"],
     env: ["FTT_WEBHOOK_SECRET"],
     configured: Boolean(getWebhookSecret()),

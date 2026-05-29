@@ -32,10 +32,7 @@ export default function DashboardPage() {
   const newsReady = Boolean(process.env.NEWSAPI_KEY?.trim());
   const truthReady = isTruthSocialConfigured();
   const cronReady = Boolean(process.env.CRON_SECRET?.trim());
-  const webhookReady = Boolean(
-    process.env.FTT_WEBHOOK_SECRET?.trim() ||
-      process.env.WEBHOOK_SECRET?.trim()
-  );
+  const freePollReady = Boolean(process.env.TRUTH_SOCIAL_RSS_URL?.trim() || true);
   const twilioReady = Boolean(
     process.env.TWILIO_ACCOUNT_SID?.trim() &&
       process.env.TWILIO_AUTH_TOKEN?.trim()
@@ -63,14 +60,14 @@ export default function DashboardPage() {
             <StatusPill label="Truth Social" active={truthReady} />
             <StatusPill label="NewsAPI" active={newsReady} />
             <StatusPill label="Vercel Cron" active={cronReady} />
-            <StatusPill label="FTT Webhook" active={webhookReady} />
+            <StatusPill label="Free RSS poll" active={freePollReady} />
             <StatusPill label="Twilio SMS" active={twilioReady} />
           </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mb-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-xl border border-surface-border bg-surface-raised p-4">
             <p className="text-xs uppercase tracking-wider text-slate-500">
               Pipeline
@@ -81,12 +78,22 @@ export default function DashboardPage() {
           </div>
           <div className="rounded-xl border border-surface-border bg-surface-raised p-4">
             <p className="text-xs uppercase tracking-wider text-slate-500">
-              Instant webhook
+              Free Truth poll
             </p>
             <p className="mt-2 font-mono text-xs text-accent">
-              POST /api/webhooks/truth-social
+              POST /api/cron/truth-poll
             </p>
-            <p className="mt-1 text-xs text-slate-500">Follow Trump&apos;s Truth</p>
+            <p className="mt-1 text-xs text-slate-500">
+              RSS every 15m via GitHub Actions
+            </p>
+          </div>
+          <div className="rounded-xl border border-surface-border bg-surface-raised p-4">
+            <p className="text-xs uppercase tracking-wider text-slate-500">
+              Instant webhook
+            </p>
+            <p className="mt-2 font-mono text-xs text-slate-500">
+              Optional paid FTT — not required
+            </p>
           </div>
           <div className="rounded-xl border border-surface-border bg-surface-raised p-4">
             <p className="text-xs uppercase tracking-wider text-slate-500">

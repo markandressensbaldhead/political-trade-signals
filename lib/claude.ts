@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 
 import type { ClaudeSignalResult } from "@/lib/types";
 
-const MODEL = "claude-sonnet-4-20250514";
+const MODEL = "claude-sonnet-4-6";
 
 function getAnthropicClient(): Anthropic {
   const apiKey = process.env.ANTHROPIC_API_KEY?.trim();

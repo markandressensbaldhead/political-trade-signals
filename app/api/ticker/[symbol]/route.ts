@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { fetchCapitolTradesByTicker } from "@/lib/capitol-trades";
 import { compareMentionToFilings } from "@/lib/disclosure";
+import { applyProductFilters, isCryptoRelated } from "@/lib/product-filters";
 import {
   getChartHistory,
   getMarketQuote,
@@ -18,6 +19,13 @@ export async function GET(
   }
 
   const symbol = params.symbol.toUpperCase();
+
+  if (isCryptoRelated({ ticker: symbol, company_name: "", quote: "" })) {
+    return NextResponse.json(
+      { error: "Crypto tickers are excluded from this feed" },
+      { status: 404 }
+    );
+  }
 
   try {
     const summary = await fetchTickerSummary(symbol);

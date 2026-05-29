@@ -18,7 +18,7 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Political Trade Signals",
   description:
-    "AI-powered alerts when public figures mention companies before official disclosure windows.",
+    "Bullish equity alerts when public figures mention companies before official disclosure windows. Crypto excluded.",
 };
 
 export default function RootLayout({

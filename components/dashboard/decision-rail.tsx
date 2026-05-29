@@ -2,28 +2,26 @@ export function DecisionRail() {
   return (
     <div className="rounded-xl border border-accent/20 bg-gradient-to-br from-accent/10 via-surface-raised to-surface-raised p-5">
       <p className="text-[10px] font-semibold uppercase tracking-wider text-accent">
-        Your edge vs Capitol Trades
+        Bullish equity signals · no crypto
       </p>
       <h2 className="mt-2 text-lg font-semibold text-white">
-        Mentions land here before STOCK Act filings
+        Positive political mentions before PTR filings
       </h2>
       <p className="mt-2 max-w-3xl text-sm leading-relaxed text-slate-300">
-        Congress trade trackers show PTR disclosures after the fact — often weeks
-        later. This feed catches when politicians name companies in speeches, Truth
-        Social, and news <span className="text-accent">before</span> those formal
-        disclosure windows. Use Alpha scores to prioritize what to research first;
-        add tickers to your watchlist and drill into full statement context before
-        sizing a trade.
+        This feed is tuned for long-bias research: only bullish tone on
+        traditional equities. Crypto, miners, and digital-asset names are
+        filtered out. Mentions land here before Capitol Trades disclosures —
+        use Alpha scores to prioritize watchlist adds and entry research.
       </p>
       <ul className="mt-4 grid gap-2 text-xs text-slate-400 sm:grid-cols-3">
         <li className="rounded-lg border border-surface-border/80 bg-surface/50 px-3 py-2">
-          <span className="font-medium text-slate-300">1. Scan</span> — hot tickers &amp; high Alpha
+          <span className="font-medium text-slate-300">1. Scan</span> — hot bullish tickers
         </li>
         <li className="rounded-lg border border-surface-border/80 bg-surface/50 px-3 py-2">
-          <span className="font-medium text-slate-300">2. Context</span> — read quote + full statement
+          <span className="font-medium text-slate-300">2. Context</span> — quote + full statement
         </li>
         <li className="rounded-lg border border-surface-border/80 bg-surface/50 px-3 py-2">
-          <span className="font-medium text-slate-300">3. Act</span> — watchlist, chart, your thesis
+          <span className="font-medium text-slate-300">3. Act</span> — watchlist + chart
         </li>
       </ul>
     </div>

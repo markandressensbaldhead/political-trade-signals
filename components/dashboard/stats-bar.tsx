@@ -10,16 +10,14 @@ function StatCard({
   label: string;
   value: string | number;
   hint?: string;
-  accent?: "bull" | "bear" | "accent";
+  accent?: "bull" | "accent";
 }) {
   const valueColor =
     accent === "bull"
       ? "text-bull"
-      : accent === "bear"
-        ? "text-bear"
-        : accent === "accent"
-          ? "text-accent"
-          : "text-white";
+      : accent === "accent"
+        ? "text-accent"
+        : "text-white";
 
   return (
     <div className="rounded-xl border border-surface-border bg-surface-raised p-4">
@@ -36,34 +34,28 @@ function StatCard({
 
 export function StatsBar({ stats }: { stats: SignalStats }) {
   return (
-    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
       <StatCard
-        label="Last 24h"
+        label="Bullish (24h)"
         value={stats.last24h}
-        hint="Fresh political mentions"
-        accent="accent"
-      />
-      <StatCard
-        label="Bullish"
-        value={stats.bullish}
-        hint="Positive tone"
+        hint="Equity mentions only · no crypto"
         accent="bull"
-      />
-      <StatCard
-        label="Bearish"
-        value={stats.bearish}
-        hint="Negative tone"
-        accent="bear"
-      />
-      <StatCard
-        label="Avg confidence"
-        value={formatConfidence(stats.avgConfidence)}
-        hint="Model certainty"
       />
       <StatCard
         label="High conviction"
         value={stats.highConfidence}
         hint="≥75% confidence"
+        accent="accent"
+      />
+      <StatCard
+        label="Avg confidence"
+        value={formatConfidence(stats.avgConfidence)}
+        hint="Across bullish signals"
+      />
+      <StatCard
+        label="All-time tracked"
+        value={stats.total}
+        hint="Bullish non-crypto feed"
       />
     </div>
   );

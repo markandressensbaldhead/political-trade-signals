@@ -146,19 +146,11 @@ export function buildRetailDecision(signal: CompanySignal): RetailDecision {
   const score = computeAlphaScore(signal);
   const conf = Math.round(signal.confidence * 100);
 
-  if (signal.sentiment === "bullish" && signal.confidence >= 0.7) {
+  if (signal.confidence >= 0.7) {
     return {
       headline: "Research long / add to watchlist",
       detail: `${conf}% confidence bullish mention — often precedes congress filings by ~45 days. Verify catalyst and size before entry.`,
       tone: "action",
-    };
-  }
-
-  if (signal.sentiment === "bearish" && signal.confidence >= 0.7) {
-    return {
-      headline: "Review short thesis or hedges",
-      detail: `High-confidence negative tone on ${signal.ticker}. Cross-check news flow and position sizing.`,
-      tone: "caution",
     };
   }
 
@@ -170,17 +162,9 @@ export function buildRetailDecision(signal: CompanySignal): RetailDecision {
     };
   }
 
-  if (signal.sentiment === "neutral") {
-    return {
-      headline: "Monitor only",
-      detail: "Company named without clear directional tone — track for follow-up mentions.",
-      tone: "neutral",
-    };
-  }
-
   return {
-    headline: "Low conviction — wait for confirmation",
-    detail: `Confidence ${conf}%. Consider waiting for a clearer signal or second mention.`,
+    headline: "Lower conviction — wait for confirmation",
+    detail: `Confidence ${conf}%. Consider waiting for a clearer bullish mention or second signal.`,
     tone: "info",
   };
 }

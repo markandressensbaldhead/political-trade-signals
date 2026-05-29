@@ -13,7 +13,7 @@ export function SignalFilters({
 }) {
   return (
     <div className="rounded-xl border border-surface-border bg-surface-raised p-4">
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
         <label className="block">
           <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500">
             Search
@@ -43,24 +43,6 @@ export function SignalFilters({
             placeholder="AAPL"
             className="w-full rounded-lg border border-surface-border bg-surface px-3 py-2 font-mono text-sm uppercase text-slate-100 placeholder:normal-case placeholder:text-slate-500 focus:border-accent/50 focus:outline-none"
           />
-        </label>
-
-        <label className="block">
-          <span className="mb-1 block text-[10px] uppercase tracking-wider text-slate-500">
-            Sentiment
-          </span>
-          <select
-            value={query.sentiment ?? ""}
-            onChange={(e) =>
-              onChange({ ...query, sentiment: e.target.value || undefined })
-            }
-            className="w-full rounded-lg border border-surface-border bg-surface px-3 py-2 text-sm text-slate-100 focus:border-accent/50 focus:outline-none"
-          >
-            <option value="">All</option>
-            <option value="bullish">Bullish</option>
-            <option value="bearish">Bearish</option>
-            <option value="neutral">Neutral</option>
-          </select>
         </label>
 
         <label className="block">

@@ -6,6 +6,7 @@ import type {
   SignalWithStatement,
   TickerSummary,
 } from "@/lib/types";
+import { applyProductFilters } from "@/lib/product-filters";
 
 function getSupabaseUrl(): string {
   const url = process.env.SUPABASE_URL?.trim();
@@ -146,14 +147,13 @@ export async function fetchTickerSummary(
   limit = 100,
   client?: SupabaseClient
 ): Promise<TickerSummary> {
-  const signals = await fetchRecentSignals(
-    { ticker: ticker.toUpperCase(), limit },
-    client
+  const signals = applyProductFilters(
+    await fetchRecentSignals(
+      { ticker: ticker.toUpperCase(), limit, sentiment: "bullish" },
+      client
+    )
   );
 
-  const bullish = signals.filter((s) => s.sentiment === "bullish").length;
-  const bearish = signals.filter((s) => s.sentiment === "bearish").length;
-  const neutral = signals.filter((s) => s.sentiment === "neutral").length;
   const avgConfidence =
     signals.length > 0
       ? signals.reduce((sum, s) => sum + s.confidence, 0) / signals.length
@@ -163,9 +163,9 @@ export async function fetchTickerSummary(
     ticker: ticker.toUpperCase(),
     companyName: signals[0]?.company_name ?? ticker.toUpperCase(),
     signalCount: signals.length,
-    bullish,
-    bearish,
-    neutral,
+    bullish: signals.length,
+    bearish: 0,
+    neutral: 0,
     avgConfidence,
     latestSignal: signals[0] ?? null,
     signals,

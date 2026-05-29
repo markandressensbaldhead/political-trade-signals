@@ -21,9 +21,9 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <div className="flex items-center gap-6">
             <Link href="/dashboard" className="group">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-accent">
-                Pre-disclosure alpha
-              </p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-accent">
+              Bullish equities · no crypto
+            </p>
               <h1 className="text-lg font-semibold tracking-tight text-white transition group-hover:text-accent sm:text-xl">
                 Political Trade Signals
               </h1>
@@ -79,7 +79,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       </main>
 
       <footer className="border-t border-surface-border/60 py-6 text-center text-xs text-slate-600">
-        Mentions from public statements — not investment advice. Cross-check before trading.
+        Mentions from public statements — bullish equity research only, not investment advice.
       </footer>
     </div>
   );

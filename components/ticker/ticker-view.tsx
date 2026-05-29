@@ -173,18 +173,10 @@ export function TickerView({ symbol }: { symbol: string }) {
           </div>
         )}
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-4">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <div className="rounded-lg border border-surface-border bg-surface p-3">
-            <p className="text-[10px] uppercase text-slate-500">Bullish</p>
-            <p className="font-mono text-xl text-bull">{summary.bullish}</p>
-          </div>
-          <div className="rounded-lg border border-surface-border bg-surface p-3">
-            <p className="text-[10px] uppercase text-slate-500">Bearish</p>
-            <p className="font-mono text-xl text-bear">{summary.bearish}</p>
-          </div>
-          <div className="rounded-lg border border-surface-border bg-surface p-3">
-            <p className="text-[10px] uppercase text-slate-500">Neutral</p>
-            <p className="font-mono text-xl text-slate-300">{summary.neutral}</p>
+            <p className="text-[10px] uppercase text-slate-500">Bullish mentions</p>
+            <p className="font-mono text-xl text-bull">{summary.signalCount}</p>
           </div>
           <div className="rounded-lg border border-surface-border bg-surface p-3">
             <p className="text-[10px] uppercase text-slate-500">Avg confidence</p>
@@ -226,7 +218,7 @@ export function TickerView({ symbol }: { symbol: string }) {
       ) : (
         <>
           <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-300">
-            Political mentions
+            Bullish mentions
           </h2>
           <div className="grid gap-4 lg:grid-cols-2">
             {summary.signals.map((signal) => (

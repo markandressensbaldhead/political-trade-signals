@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { fetchSignalById, isSupabaseConfigured } from "@/lib/supabase";
+import { applyProductFilters } from "@/lib/product-filters";
 
 export async function GET(
   _request: Request,
@@ -15,6 +16,10 @@ export async function GET(
 
     if (!signal) {
       return NextResponse.json({ error: "Signal not found" }, { status: 404 });
+    }
+
+    if (applyProductFilters([signal]).length === 0) {
+      return NextResponse.json({ error: "Signal not in feed scope" }, { status: 404 });
     }
 
     return NextResponse.json({ signal });
